@@ -10,6 +10,15 @@ export default function QuestionDisplay({
   question,
   questionNumber,
 }: QuestionDisplayProps) {
+  // Verificação de segurança
+  if (!question || !question.type) {
+    return (
+      <div className='bg-white border border-gray-200 rounded-lg p-6 shadow-sm'>
+        <p className='text-gray-500'>Question data is not available</p>
+      </div>
+    );
+  }
+
   const renderQuestionContent = () => {
     switch (question.type) {
       case QuestionType.BOOLEAN:
@@ -62,23 +71,27 @@ export default function QuestionDisplay({
             <div className='p-3 bg-gray-50 rounded-lg border border-gray-200'>
               <p className='text-sm text-gray-600 mb-1'>Expected Answer:</p>
               <p className='font-mono text-sm bg-white px-3 py-2 rounded border'>
-                {question.correctAnswer}
+                {question.correctAnswer || 'No answer provided'}
               </p>
             </div>
             <div className='p-3 bg-green-50 rounded-lg border border-green-200'>
               <p className='text-sm text-green-800'>
-                <strong>Correct Answer:</strong> {question.correctAnswer}
+                <strong>Correct Answer:</strong>{' '}
+                {question.correctAnswer || 'No answer provided'}
               </p>
             </div>
           </div>
         );
 
       case QuestionType.CHECKBOX:
+        const correctAnswers = question.correctAnswers || [];
+        const options = question.options || [];
+
         return (
           <div className='space-y-3'>
             <div className='space-y-2'>
-              {question.options.map((option, index) => {
-                const isCorrect = question.correctAnswers.includes(option);
+              {options.map((option, index) => {
+                const isCorrect = correctAnswers.includes(option);
                 return (
                   <div key={index} className='flex items-center space-x-3'>
                     {isCorrect ? (
@@ -99,19 +112,25 @@ export default function QuestionDisplay({
                 );
               })}
             </div>
-            <div className='p-3 bg-green-50 rounded-lg border border-green-200'>
-              <p className='text-sm text-green-800'>
-                <strong>
-                  Correct Answer{question.correctAnswers.length > 1 ? 's' : ''}:
-                </strong>{' '}
-                {question.correctAnswers.join(', ')}
-              </p>
-            </div>
+            {correctAnswers.length > 0 && (
+              <div className='p-3 bg-green-50 rounded-lg border border-green-200'>
+                <p className='text-sm text-green-800'>
+                  <strong>
+                    Correct Answer{correctAnswers.length > 1 ? 's' : ''}:
+                  </strong>{' '}
+                  {correctAnswers.join(', ')}
+                </p>
+              </div>
+            )}
           </div>
         );
 
       default:
-        return <p className='text-gray-500'>Unknown question type</p>;
+        return (
+          <p className='text-gray-500'>
+            Unknown question type: {question.type}
+          </p>
+        );
     }
   };
 
@@ -159,7 +178,7 @@ export default function QuestionDisplay({
             </span>
           </div>
           <h3 className='text-lg font-medium text-gray-900 leading-relaxed'>
-            {question.text}
+            {question.text || 'Question text not available'}
           </h3>
         </div>
       </div>
