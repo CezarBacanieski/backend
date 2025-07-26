@@ -1,36 +1,166 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Quiz Builder Frontend
+
+A modern React/Next.js application for creating and managing custom quizzes with multiple question types.
+
+## Features
+
+- 🎯 **Create Custom Quizzes** - Build quizzes with multiple question types
+- 📝 **Multiple Question Types**:
+  - Boolean (True/False)
+  - Input (Short Answer)
+  - Checkbox (Multiple Choice)
+- 📱 **Responsive Design** - Works on desktop, tablet, and mobile
+- 🔍 **Search & Filter** - Find quizzes quickly
+- ⚡ **Real-time Validation** - Form validation with immediate feedback
+- 🎨 **Modern UI** - Clean, accessible interface with Tailwind CSS
+
+## Tech Stack
+
+- **Framework**: Next.js 15 with App Router
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **Forms**: React Hook Form + Zod validation
+- **HTTP Client**: Axios
+- **Icons**: Lucide React
+- **State Management**: React hooks
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
+- Node.js 18+ 
+- npm or yarn
+- Backend API running on port 3001
+
+### Installation
+
+1. Install dependencies:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Create environment variables:
+```bash
+cp .env.example .env.local
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Update `.env.local`:
+```bash
+NEXT_PUBLIC_API_URL=http://localhost:3001
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Start the development server:
+```bash
+npm run dev
+```
 
-## Learn More
+5. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-To learn more about Next.js, take a look at the following resources:
+## Project Structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+src/
+├── app/                 # Next.js 15 App Router pages
+│   ├── create/         # Quiz creation page
+│   ├── quizzes/        # Quiz listing and detail pages
+│   └── layout.tsx      # Root layout
+├── components/         # Reusable components
+│   ├── layout/        # Layout components
+│   ├── quiz/          # Quiz-specific components
+│   └── ui/            # Generic UI components
+├── hooks/             # Custom React hooks
+├── schemas/           # Zod validation schemas
+├── services/          # API services
+└── types/             # TypeScript type definitions
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Pages
 
-## Deploy on Vercel
+### Home Page (`/`)
+- Welcome page with feature overview
+- Quick access to create quiz and browse quizzes
+- Getting started guide
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Create Quiz (`/create`)
+- Form to create new quizzes
+- Dynamic question management (add/remove)
+- Real-time validation
+- Support for all question types
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Quiz List (`/quizzes`)
+- Display all created quizzes
+- Search functionality
+- Quick delete action
+- Empty state for new users
+
+### Quiz Details (`/quizzes/[id]`)
+- View complete quiz structure
+- Read-only question display
+- Quiz metadata (creation date, question count)
+- Delete quiz option
+
+## Question Types
+
+### Boolean (True/False)
+- Simple true/false questions
+- Radio button selection for correct answer
+
+### Input (Short Answer)
+- Text-based questions
+- Single correct answer validation
+
+### Checkbox (Multiple Choice)
+- Multiple options support
+- Multiple correct answers allowed
+- Dynamic option management
+
+## Development
+
+### Available Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint
+- `npm run lint:fix` - Fix ESLint errors
+- `npm run type-check` - Run TypeScript type checking
+
+### Code Quality
+
+- **ESLint** - Code linting and formatting
+- **TypeScript** - Type safety
+- **Prettier** - Code formatting (via ESLint)
+
+## API Integration
+
+The frontend communicates with the backend API through:
+
+- `POST /quizzes` - Create new quiz
+- `GET /quizzes` - Get all quizzes
+- `GET /quizzes/:id` - Get quiz details
+- `DELETE /quizzes/:id` - Delete quiz
+
+## Deployment
+
+1. Build the application:
+```bash
+npm run build
+```
+
+2. Start the production server:
+```bash
+npm run start
+```
+
+## Environment Variables
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `NEXT_PUBLIC_API_URL` | Backend API URL | `http://localhost:3001` |
+
+## Contributing
+
+1. Follow the existing code style
+2. Add TypeScript types for new features
+3. Test on multiple screen sizes
+4. Ensure accessibility standards
