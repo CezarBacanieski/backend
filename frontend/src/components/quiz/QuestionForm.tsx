@@ -149,11 +149,17 @@ export default function QuestionForm({
         </label>
         <select
           {...register(`questions.${questionIndex}.type` as const)}
-          className='block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500'
+          className='block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-gray-900'
         >
-          <option value={QuestionType.BOOLEAN}>True/False</option>
-          <option value={QuestionType.INPUT}>Short Answer</option>
-          <option value={QuestionType.CHECKBOX}>Multiple Choice</option>
+          <option value={QuestionType.BOOLEAN} className='text-gray-900'>
+            True/False
+          </option>
+          <option value={QuestionType.INPUT} className='text-gray-900'>
+            Short Answer
+          </option>
+          <option value={QuestionType.CHECKBOX} className='text-gray-900'>
+            Multiple Choice
+          </option>
         </select>
         {questionError?.type && (
           <p className='mt-1 text-sm text-red-600'>

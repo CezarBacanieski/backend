@@ -70,7 +70,7 @@ export default function QuestionDisplay({
           <div className='space-y-3'>
             <div className='p-3 bg-gray-50 rounded-lg border border-gray-200'>
               <p className='text-sm text-gray-600 mb-1'>Expected Answer:</p>
-              <p className='font-mono text-sm bg-white px-3 py-2 rounded border'>
+              <p className='font-mono text-sm bg-white px-3 py-2 rounded border text-gray-900'>
                 {question.correctAnswer || 'No answer provided'}
               </p>
             </div>
