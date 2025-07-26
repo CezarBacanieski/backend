@@ -7,7 +7,6 @@ import { PrismaService } from '../prisma/prisma.service';
 import { CreateQuizDto, QuizSummaryDto } from './dto/quiz.dto';
 import { Quiz } from './entities/quiz.entity';
 import { QuestionType } from './dto/question.dto';
-import { QuestionType as PrismaQuestionType } from '@prisma/client';
 
 @Injectable()
 export class QuizzesService {
@@ -24,7 +23,7 @@ export class QuizzesService {
           questions: {
             create: createQuizDto.questions.map((question) => ({
               text: question.text,
-              type: question.type as PrismaQuestionType,
+              type: question.type,
               options: question.options || [],
               correctAnswer: question.correctAnswer || null,
               correctAnswers: question.correctAnswers || [],
@@ -36,14 +35,7 @@ export class QuizzesService {
         },
       });
 
-      // Transform the result to match our entity interface
-      return {
-        ...quiz,
-        questions: quiz.questions.map((question) => ({
-          ...question,
-          type: question.type as QuestionType,
-        })),
-      };
+      return quiz as Quiz;
     } catch (error) {
       if (error instanceof BadRequestException) {
         throw error;
@@ -88,14 +80,7 @@ export class QuizzesService {
       throw new NotFoundException(`Quiz with ID ${id} not found`);
     }
 
-    // Transform the result to match our entity interface
-    return {
-      ...quiz,
-      questions: quiz.questions.map((question) => ({
-        ...question,
-        type: question.type as QuestionType,
-      })),
-    };
+    return quiz as Quiz;
   }
 
   async remove(id: string): Promise<void> {
