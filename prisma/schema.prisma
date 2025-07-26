@@ -1,0 +1,42 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Quiz {
+  id          String     @id @default(cuid())
+  title       String
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  questions   Question[]
+
+  @@map("quizzes")
+}
+
+model Question {
+  id           String      @id @default(cuid())
+  text         String
+  type         QuestionType
+  options      String[]    // For checkbox questions
+  correctAnswer String?    // For input and boolean questions
+  correctAnswers String[]  // For checkbox questions (multiple correct)
+  quiz         Quiz        @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  quizId       String
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  @@map("questions")
+}
+
+enum QuestionType {
+  BOOLEAN
+  INPUT
+  CHECKBOX
+}
